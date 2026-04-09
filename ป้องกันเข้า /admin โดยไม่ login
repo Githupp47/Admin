@@ -1,0 +1,21 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+
+export default function Admin() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data } = await supabase.auth.getUser();
+
+      if (!data.user) {
+        navigate("/admin-login"); // ❌ ไม่ได้ login → เด้งกลับ
+      }
+    };
+
+    checkUser();
+  }, []);
+
+  return <div>Admin Dashboard</div>;
+}
